@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<!--当路由切换时会将对应的template插入到ng-view中-->
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div class="navbar-brand">
+                <a href="#/">珠峰书店</a>
+            </div>
+        </div>
+        <div >
+            <ul class="nav navbar-nav">
+                <li><a href="#/">首页</a></li>
+                <li><a href="#/book/list">列表页</a></li>
+                <li><a href="#/book/add">增加</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div ng-view class="container"></div>
+<script src="./node_modules/angular/angular.js"></script>
+<script src="./node_modules/angular-resource/angular-resource.js"></script>
+<script src="./node_modules/angular-route/angular-route.js"></script>
+<script>
+    //依赖模块的名字
+    var app = angular.module('appModule',['ngResource','ngRoute']);
+    //配置点击跳转 ，通过配置路由实现页面跳转
+    app.config(function ($routeProvider) { //$route
+        $routeProvider.when('/',{
+            templateUrl:'tmpl/index.html'
+        }).when('/book/list',{
+            templateUrl:'tmpl/list.html'
+        }).when('/book/add',{
+            templateUrl:'tmpl/add.html'
+        }).otherwise('/');
+    })
+</script>
+</body>
+</html>
