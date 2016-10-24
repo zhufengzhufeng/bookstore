@@ -2,24 +2,24 @@
     <div class="form-group">
         <label for="bookName" class="control-label col-sm-2">书名</label>
         <div class="col-sm-10">
-            <input type="text" id="bookName" class="form-control" placeholder="请填写书名">
+            <input type="text" id="bookName" class="form-control" placeholder="请填写书名" ng-model="book.name">
         </div>
     </div>
     <div class="form-group">
         <label for="bookName" class="control-label col-sm-2">书的价格</label>
         <div class="col-sm-10">
-            <input type="text" id="bookPrice" class="form-control" placeholder="请填写价格">
+            <input type="text" id="bookPrice" class="form-control" placeholder="请填写价格"  ng-model="book.price">
         </div>
     </div>
     <div class="form-group">
         <label for="bookName" class="control-label col-sm-2">书的封面地址</label>
         <div class="col-sm-10">
-            <input type="text" id="bookCover" class="form-control" placeholder="请填写书的封面">
+            <input type="text" id="bookCover" class="form-control" placeholder="请填写书的封面"  ng-model="book.cover">
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-10 col-sm-offset-2">
-            <button class="btn btn-danger">增加</button>
+            <button class="btn btn-danger" ng-click="add()">增加</button>
         </div>
     </div>
 </form>

@@ -1,1 +1,22 @@
-详情
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default">
+            <div class="panel panel-heading text-center">
+                <span ng-show="flag">{{book.name}}</span>
+                <input type="text" ng-model="book.name" ng-hide="flag">
+                <button ng-click="goBack()" class="btn btn-default btn-xs pull-right">返回</button>
+            </div>
+            <div class="panel panel-body text-center">
+                <img ng-src="{{book.cover}}" alt="">
+            </div>
+            <div class="panel panel-footer ">
+                <span ng-show="flag">{{book.price | currency:'￡'}}</span>
+                <input type="text" ng-model="book.price" ng-hide="flag" class="form-control">
+                <button class="btn btn-danger" ng-click="remove()" ng-show="flag">删除</button>
+                <button class="btn btn-warning" ng-click="update()" ng-show="flag">修改</button>
+                <button class="btn btn-primary" ng-hide="flag" ng-click="sure()">确认修改</button>
+            </div>
+        </div>
+    </div>
+
+</div>

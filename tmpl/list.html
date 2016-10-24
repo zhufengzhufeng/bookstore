@@ -1,9 +1,17 @@
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-3" ng-repeat="book in books track by $index">
         <div class="panel panel-default">
-            <div class="panel panel-heading"></div>
-            <div class="panel panel-body"></div>
-            <div class="panel panel-footer"></div>
+            <a href="#/book/detail/{{book.id}}">
+            <div class="panel panel-heading">
+                {{book.name}}
+            </div>
+            <div class="panel panel-body">
+                <img ng-src="{{book.cover}}" alt="">
+            </div>
+            <div class="panel panel-footer">
+                {{book.price | currency:'￡'}}
+            </div>
+            </a>
         </div>
     </div>
 </div>

@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
+<style>
+    img{
+        width:100px;
+    }
+</style>
 <!--当路由切换时会将对应的template插入到ng-view中-->
 <div class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -31,14 +36,79 @@
     //依赖模块的名字
     var app = angular.module('appModule',['ngResource','ngRoute']);
     //配置点击跳转 ，通过配置路由实现页面跳转
+
+    app.factory('book',function ($resource) {
+        return $resource('/books/:id',null,{
+            update:{
+                method:'PUT'
+            }
+        });
+    });
+    //save 保存 query查询所有数组类型   get 获取一个
+    //remove delete删除  update
+    /*
+    * 增加图书 POST /books
+    * 修改    PUT /books/:id
+    * 查询    GET /books
+    * 查询一本    GET /books/:id
+    * 删除    DELETE /books/:id
+    * */
+
+
     app.config(function ($routeProvider) { //$route
         $routeProvider.when('/',{
-            templateUrl:'tmpl/index.html'
+            templateUrl:'tmpl/index.html',//要给每个页面增加一个控制器，将对应的数据渲染到对应的页面上
+            controller:'indexCtrl'
         }).when('/book/list',{
-            templateUrl:'tmpl/list.html'
+            templateUrl:'tmpl/list.html',
+            controller:'listCtrl'
         }).when('/book/add',{
-            templateUrl:'tmpl/add.html'
+            templateUrl:'tmpl/add.html',
+            controller:'addCtrl'
+        }).when('/book/detail/:id',{
+            templateUrl:'tmpl/detail.html',
+            controller:'detailCtrl'
         }).otherwise('/');
+    });
+    app.controller('indexCtrl',function ($scope,book) {});
+    app.controller('listCtrl',function ($scope,book) {
+        //先获取所有数据 将数据渲染到页面上
+        $scope.books = book.query();//将所有数据绑定在books上
+    });
+    app.controller('addCtrl',function ($scope,book,$location) {
+        //增加图书 当点击增加按钮时 只要将我们的 $scope.book直接保存即可
+        $scope.add = function () {
+            book.save($scope.book).$promise.then(function () {
+                $location.path('/book/list');
+            });//发送post请求并且包含请求体
+            //当增加后跳转到列表页
+        }
+    });
+    app.controller('detailCtrl',function ($scope,$routeParams,book,$location) {
+        //进入详情页后要获取唯一的数据 将此项的所有内容获取到
+        var id =  $routeParams.id;
+        //GET  /books/1
+        $scope.book = book.get({id:id});//查询唯一一本书
+        $scope.remove = function () {
+            book.delete($scope.book).$promise.then(function () {
+                $location.path('/book/list');
+            });// DELETE /books/1
+        }
+        $scope.flag = true;
+        $scope.update = function () {
+            //先要将内容变成可以更改的
+            $scope.flag = false;
+        }
+        $scope.sure = function () {
+            //将修改好的数据传入给后台$scope.book
+            //将某个id修改成$scope.book的内容
+            book.update({id:id},$scope.book).$promise.then(function () {
+                $scope.flag = true;
+            }); // put  /books/1
+        }
+        $scope.goBack = function () {
+            $location.path('/book/list')
+        }
     })
 </script>
 </body>
